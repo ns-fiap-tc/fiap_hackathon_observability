@@ -12,7 +12,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -97,19 +97,19 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "microservices_system_cpu_usage{application=~\"$application\", deployment_environment=~\"$environment\"} * 100",
-          "legendFormat": "{{application}} - System CPU",
+          "expr": "microservices_system_cpu_usage{service_name=~\"$application\"} * 100",
+          "legendFormat": "{{service_name}} - System CPU",
           "refId": "A"
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "microservices_process_cpu_usage{application=~\"$application\", deployment_environment=~\"$environment\"} * 100",
-          "legendFormat": "{{application}} - Process CPU",
+          "expr": "microservices_process_cpu_usage{service_name=~\"$application\"} * 100",
+          "legendFormat": "{{service_name}} - Process CPU",
           "refId": "B"
         }
       ],
@@ -119,7 +119,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -204,10 +204,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "(microservices_jvm_memory_used_bytes{application=~\"$application\", deployment_environment=~\"$environment\"} / microservices_jvm_memory_max_bytes{application=~\"$application\", deployment_environment=~\"$environment\"}) * 100",
-          "legendFormat": "{{application}} - {{area}} Memory",
+          "expr": "(microservices_jvm_memory_used_bytes{service_name=~\"$application\", area=\"heap\"} / microservices_jvm_memory_max_bytes{service_name=~\"$application\", area=\"heap\"}) * 100",
+          "legendFormat": "{{service_name}} - Heap Memory",
           "refId": "A"
         }
       ],
@@ -217,7 +217,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -292,10 +292,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "rate(microservices_http_server_requests_seconds_count{application=~\"$application\", deployment_environment=~\"$environment\"}[5m])",
-          "legendFormat": "{{application}} - {{method}} {{uri}}",
+          "expr": "sum(rate(microservices_http_server_requests_seconds_count{service_name=~\"$application\"}[5m])) by (service_name)",
+          "legendFormat": "{{service_name}}",
           "refId": "A"
         }
       ],
@@ -305,7 +305,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -384,10 +384,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "(sum(rate(microservices_http_server_requests_seconds_count{application=~\"$application\", deployment_environment=~\"$environment\", status=~\"5..\"}[5m])) by (application) / sum(rate(microservices_http_server_requests_seconds_count{application=~\"$application\", deployment_environment=~\"$environment\"}[5m])) by (application)) * 100",
-          "legendFormat": "{{application}} - Error Rate",
+          "expr": "(sum(rate(microservices_http_server_requests_seconds_count{service_name=~\"$application\", status=~\"5..\"}[5m])) by (service_name) / sum(rate(microservices_http_server_requests_seconds_count{service_name=~\"$application\"}[5m])) by (service_name)) * 100",
+          "legendFormat": "{{service_name}} - Error Rate",
           "refId": "A"
         }
       ],
@@ -397,7 +397,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -480,19 +480,19 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.95, sum(rate(microservices_http_server_requests_seconds_bucket{application=~\"$application\", deployment_environment=~\"$environment\"}[5m])) by (le, application))",
-          "legendFormat": "{{application}} - p95",
+          "expr": "histogram_quantile(0.95, sum(rate(microservices_http_server_requests_seconds_bucket{service_name=~\"$application\"}[5m])) by (le, service_name))",
+          "legendFormat": "{{service_name}} - p95",
           "refId": "A"
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.50, sum(rate(microservices_http_server_requests_seconds_bucket{application=~\"$application\", deployment_environment=~\"$environment\"}[5m])) by (le, application))",
-          "legendFormat": "{{application}} - p50",
+          "expr": "histogram_quantile(0.50, sum(rate(microservices_http_server_requests_seconds_bucket{service_name=~\"$application\"}[5m])) by (le, service_name))",
+          "legendFormat": "{{service_name}} - p50",
           "refId": "B"
         }
       ],
@@ -502,7 +502,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -553,10 +553,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "microservices_application_ready_time_milliseconds{application=~\"$application\", deployment_environment=~\"$environment\"}",
-          "legendFormat": "{{application}}",
+          "expr": "microservices_application_ready_time_milliseconds{service_name=~\"$application\"}",
+          "legendFormat": "{{service_name}}",
           "refId": "A"
         }
       ],
@@ -566,7 +566,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -641,29 +641,20 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "rate(microservices_rabbitmq_published_total{application=~\"$application\", deployment_environment=~\"$environment\"}[5m])",
-          "legendFormat": "{{application}} - Published/sec",
+          "expr": "sum(rate(microservices_rabbitmq_published_total{service_name=~\"$application\"}[5m])) by (service_name)",
+          "legendFormat": "{{service_name}} - Published/sec",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "expr": "rate(microservices_rabbitmq_consumed_total{application=~\"$application\", deployment_environment=~\"$environment\"}[5m])",
-          "legendFormat": "{{application}} - Consumed/sec",
-          "refId": "B"
         }
       ],
-      "title": "RabbitMQ - Messages Rate",
+      "title": "RabbitMQ - Messages Published Rate",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -673,18 +664,14 @@
           "mappings": [
             {
               "options": {
-                "0": {
+                "match": "null",
+                "result": {
                   "color": "red",
-                  "index": 1,
-                  "text": "Down"
-                },
-                "1": {
-                  "color": "green",
                   "index": 0,
-                  "text": "UP"
+                  "text": "Down"
                 }
               },
-              "type": "value"
+              "type": "special"
             }
           ],
           "thresholds": {
@@ -725,9 +712,9 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "up{job=\"mongodb\"}",
+          "expr": "min(microservices_mongodb_driver_pool_size)",
           "legendFormat": "MongoDB",
           "refId": "A"
         }
@@ -738,7 +725,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -748,18 +735,14 @@
           "mappings": [
             {
               "options": {
-                "0": {
+                "match": "null",
+                "result": {
                   "color": "red",
-                  "index": 1,
-                  "text": "Down"
-                },
-                "1": {
-                  "color": "green",
                   "index": 0,
-                  "text": "UP"
+                  "text": "Down"
                 }
               },
-              "type": "value"
+              "type": "special"
             }
           ],
           "thresholds": {
@@ -800,15 +783,258 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "Prometheus"
           },
-          "expr": "up{job=\"rabbitmq\"}",
+          "expr": "max(microservices_rabbitmq_connections)",
           "legendFormat": "RabbitMQ",
           "refId": "A"
         }
       ],
       "title": "RabbitMQ Health",
       "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 32
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "count(microservices_system_cpu_usage)",
+          "legendFormat": "Active Services",
+          "refId": "A"
+        }
+      ],
+      "title": "Active Microservices",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 6,
+        "y": 32
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": ["mean", "lastNotNull"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "microservices_disk_total_bytes{service_name=~\"$application\"}",
+          "legendFormat": "{{service_name}} - Total Disk",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "microservices_disk_free_bytes{service_name=~\"$application\"}",
+          "legendFormat": "{{service_name}} - Free Disk",
+          "refId": "B"
+        }
+      ],
+      "title": "Disk Space",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 32
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull"],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "microservices_process_files_open{service_name=~\"$application\"}",
+          "legendFormat": "{{service_name}} - Open Files",
+          "refId": "A"
+        }
+      ],
+      "title": "Open File Descriptors",
+      "type": "timeseries"
     }
   ],
   "refresh": "30s",
@@ -820,14 +1046,14 @@
       {
         "current": {
           "selected": true,
-          "text": "All",
-          "value": "$__all"
+          "text": ["All"],
+          "value": ["$__all"]
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "Prometheus"
         },
-        "definition": "label_values(microservices_system_cpu_usage, application)",
+        "definition": "label_values(microservices_system_cpu_usage, service_name)",
         "hide": 0,
         "includeAll": true,
         "label": "Application",
@@ -835,10 +1061,10 @@
         "name": "application",
         "options": [],
         "query": {
-          "query": "label_values(microservices_system_cpu_usage, application)",
+          "query": "label_values(microservices_system_cpu_usage, service_name)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
@@ -847,12 +1073,12 @@
       {
         "current": {
           "selected": true,
-          "text": "All",
-          "value": "$__all"
+          "text": ["All"],
+          "value": ["$__all"]
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "Prometheus"
         },
         "definition": "label_values(microservices_system_cpu_usage, deployment_environment)",
         "hide": 0,
@@ -865,7 +1091,7 @@
           "query": "label_values(microservices_system_cpu_usage, deployment_environment)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,

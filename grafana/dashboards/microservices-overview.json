@@ -99,8 +99,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "microservices_system_cpu_usage{service_name=~\"$application\"} * 100",
-          "legendFormat": "{{service_name}} - System CPU",
+          "expr": "microservices_system_cpu_usage{application=~\"$application\"} * 100",
+          "legendFormat": "{{application}} - System CPU",
           "refId": "A"
         },
         {
@@ -108,8 +108,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "microservices_process_cpu_usage{service_name=~\"$application\"} * 100",
-          "legendFormat": "{{service_name}} - Process CPU",
+          "expr": "microservices_process_cpu_usage{application=~\"$application\"} * 100",
+          "legendFormat": "{{application}} - Process CPU",
           "refId": "B"
         }
       ],
@@ -206,8 +206,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "(microservices_jvm_memory_used_bytes{service_name=~\"$application\", area=\"heap\"} / microservices_jvm_memory_max_bytes{service_name=~\"$application\", area=\"heap\"}) * 100",
-          "legendFormat": "{{service_name}} - Heap Memory",
+          "expr": "(microservices_jvm_memory_used_bytes{application=~\"$application\", area=\"heap\"} / microservices_jvm_memory_max_bytes{application=~\"$application\", area=\"heap\"}) * 100",
+          "legendFormat": "{{application}} - Heap Memory",
           "refId": "A"
         }
       ],
@@ -294,8 +294,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(rate(microservices_http_server_requests_seconds_count{service_name=~\"$application\"}[5m])) by (service_name)",
-          "legendFormat": "{{service_name}}",
+          "expr": "sum(rate(microservices_http_server_requests_seconds_count{application=~\"$application\"}[5m])) by (application)",
+          "legendFormat": "{{application}}",
           "refId": "A"
         }
       ],
@@ -386,8 +386,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "(sum(rate(microservices_http_server_requests_seconds_count{service_name=~\"$application\", status=~\"5..\"}[5m])) by (service_name) / sum(rate(microservices_http_server_requests_seconds_count{service_name=~\"$application\"}[5m])) by (service_name)) * 100",
-          "legendFormat": "{{service_name}} - Error Rate",
+          "expr": "(sum(rate(microservices_http_server_requests_seconds_count{application=~\"$application\", status=~\"5..\"}[5m])) by (application) / sum(rate(microservices_http_server_requests_seconds_count{application=~\"$application\"}[5m])) by (application)) * 100",
+          "legendFormat": "{{application}} - Error Rate",
           "refId": "A"
         }
       ],
@@ -482,8 +482,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.95, sum(rate(microservices_http_server_requests_seconds_bucket{service_name=~\"$application\"}[5m])) by (le, service_name))",
-          "legendFormat": "{{service_name}} - p95",
+          "expr": "histogram_quantile(0.95, sum(rate(microservices_http_server_requests_seconds_bucket{application=~\"$application\"}[5m])) by (le, application))",
+          "legendFormat": "{{application}} - p95",
           "refId": "A"
         },
         {
@@ -491,8 +491,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.50, sum(rate(microservices_http_server_requests_seconds_bucket{service_name=~\"$application\"}[5m])) by (le, service_name))",
-          "legendFormat": "{{service_name}} - p50",
+          "expr": "histogram_quantile(0.50, sum(rate(microservices_http_server_requests_seconds_bucket{application=~\"$application\"}[5m])) by (le, application))",
+          "legendFormat": "{{application}} - p50",
           "refId": "B"
         }
       ],
@@ -555,8 +555,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "microservices_application_ready_time_milliseconds{service_name=~\"$application\"}",
-          "legendFormat": "{{service_name}}",
+          "expr": "microservices_application_ready_time_milliseconds{application=~\"$application\"}",
+          "legendFormat": "{{application}}",
           "refId": "A"
         }
       ],
@@ -643,8 +643,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(rate(microservices_rabbitmq_published_total{service_name=~\"$application\"}[5m])) by (service_name)",
-          "legendFormat": "{{service_name}} - Published/sec",
+          "expr": "sum(rate(microservices_rabbitmq_published_total{application=~\"$application\"}[5m])) by (application)",
+          "legendFormat": "{{application}} - Published/sec",
           "refId": "A"
         }
       ],
@@ -931,8 +931,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "microservices_disk_total_bytes{service_name=~\"$application\"}",
-          "legendFormat": "{{service_name}} - Total Disk",
+          "expr": "microservices_disk_total_bytes{application=~\"$application\"}",
+          "legendFormat": "{{application}} - Total Disk",
           "refId": "A"
         },
         {
@@ -940,8 +940,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "microservices_disk_free_bytes{service_name=~\"$application\"}",
-          "legendFormat": "{{service_name}} - Free Disk",
+          "expr": "microservices_disk_free_bytes{application=~\"$application\"}",
+          "legendFormat": "{{application}} - Free Disk",
           "refId": "B"
         }
       ],
@@ -1028,8 +1028,8 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "microservices_process_files_open{service_name=~\"$application\"}",
-          "legendFormat": "{{service_name}} - Open Files",
+          "expr": "microservices_process_files_open{application=~\"$application\"}",
+          "legendFormat": "{{application}} - Open Files",
           "refId": "A"
         }
       ],
@@ -1044,16 +1044,17 @@
   "templating": {
     "list": [
       {
+        "allValue": ".*",
         "current": {
           "selected": true,
-          "text": ["All"],
-          "value": ["$__all"]
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "label_values(microservices_system_cpu_usage, service_name)",
+        "definition": "label_values(application)",
         "hide": 0,
         "includeAll": true,
         "label": "Application",
@@ -1061,26 +1062,27 @@
         "name": "application",
         "options": [],
         "query": {
-          "query": "label_values(microservices_system_cpu_usage, service_name)",
+          "query": "label_values(application)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
-        "refresh": 2,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       },
       {
+        "allValue": ".*",
         "current": {
           "selected": true,
-          "text": ["All"],
-          "value": ["$__all"]
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "label_values(microservices_system_cpu_usage, deployment_environment)",
+        "definition": "label_values(environment)",
         "hide": 0,
         "includeAll": true,
         "label": "Environment",
@@ -1088,10 +1090,10 @@
         "name": "environment",
         "options": [],
         "query": {
-          "query": "label_values(microservices_system_cpu_usage, deployment_environment)",
+          "query": "label_values(environment)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
-        "refresh": 2,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,

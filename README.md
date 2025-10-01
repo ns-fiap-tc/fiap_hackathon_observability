@@ -11,6 +11,10 @@ Este projeto implementa uma stack centralizada de observabilidade que permite mo
 - **Grafana**: Visualização e dashboards
 - **Kubernetes**: Orquestração e deploy
 
+## 📺 Demo
+https://github.com/user-attachments/assets/f62e09ea-9e0c-4f42-a9ed-1bed7a6f9bf7
+
+
 ## 🏗️ Arquitetura
 
 ```
